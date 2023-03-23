@@ -25,27 +25,21 @@ class _InitialScreenState extends State<InitialScreen> {
           children: const [
             Task(
                 'Aprender Flutter',
-                'https://pbs.twimg.com/media/Eu7m692XIAEvxxP?format=png&name=large',
+                'assets/images/flutter.png',
                 3),
             Task('Aprender a andar de bike',
-                'https://cdn-icons-png.flaticon.com/512/946/946971.png', 2),
+                'assets/images/bike.png', 2),
             Task('Ler o clean code',
-                'https://cdn-icons-png.flaticon.com/512/1830/1830845.png', 5),
-            Task('Ir ao mercado',
-                'https://cdn-icons-png.flaticon.com/512/862/862819.png', 1),
+                'assets/images/ler.png', 5),
             Task('Assitir podcast',
-                'https://cdn-icons-png.flaticon.com/512/3771/3771390.png', 2),
+                'assets/images/podcast.png', 2),
             Task(
                 'Fazer curso Alura',
-                'https://www.alurastart.com.br/assets/api/share/alura-start.jpg',
+                'assets/images/alura-start.jpg',
                 3),
-            Task('Brincar com gatos',
-                'https://cdn-icons-png.flaticon.com/512/5904/5904059.png', 4),
-            Task(
-                'Aprender Dart',
-                'https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Dart-logo-icon.svg/2048px-Dart-logo-icon.svg.png',
-                2),
+            SizedBox(height: 80, ),
           ],
+
         ),
       ),
       floatingActionButton: FloatingActionButton(onPressed: () {

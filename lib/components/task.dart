@@ -45,7 +45,7 @@ class _TaskState extends State<Task> {
                             color: Colors.black26),
                         height: 100,
                         width: 72,
-                        child: ClipRRect( borderRadius: BorderRadius.circular(4), child: Image.network(widget.photo, fit: BoxFit.cover)),
+                        child: ClipRRect( borderRadius: BorderRadius.circular(4), child: Image.asset(widget.photo, fit: BoxFit.cover)),
                       ),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
