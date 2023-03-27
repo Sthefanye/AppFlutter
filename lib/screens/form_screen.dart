@@ -121,7 +121,10 @@ class _FormScreenState extends State<FormScreen> {
                       if (_formKey.currentState!.validate()) {
                         ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                                content: Text('Salvando nossa Tarefas')));
+                                content: Text('Salvando nossa Tarefas')
+                            )
+                        );
+                        Navigator.pop(context);
                       }
                     },
                     child: const Text('Adicionar'),
