@@ -1,32 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:nosso_primeiro_projeto/screens/alert.dart';
 
+import '../data/task_dao.dart';
 import 'difficulty.dart';
 
 class Task extends StatefulWidget {
-  final String taskName;
-  final String photo;
+  final String name;
+  final String image;
   final int difficulty;
 
-  Task(this.taskName, this.photo, this.difficulty, {Key? key})
-      : super(key: key);
+  Task(this.name, this.image, this.difficulty, {Key? key}) : super(key: key);
 
   int level = 0;
-
 
   @override
   State<Task> createState() => _TaskState();
 }
 
 class _TaskState extends State<Task> {
-
-
   bool assertOrNetwork() {
-    if (widget.photo.contains('http')) {
+    if (widget.image.contains('http')) {
       return false;
     }
     return true;
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -59,8 +56,8 @@ class _TaskState extends State<Task> {
                         child: ClipRRect(
                             borderRadius: BorderRadius.circular(4),
                             child: assertOrNetwork()
-                                ? Image.asset(widget.photo, fit: BoxFit.cover)
-                                : Image.network(widget.photo,
+                                ? Image.asset(widget.image, fit: BoxFit.cover)
+                                : Image.network(widget.image,
                                     fit: BoxFit.cover)),
                       ),
                       Column(
@@ -70,7 +67,7 @@ class _TaskState extends State<Task> {
                           SizedBox(
                               width: 200,
                               child: Text(
-                                widget.taskName,
+                                widget.name,
                                 style: const TextStyle(
                                     fontSize: 20,
                                     overflow: TextOverflow.ellipsis),
@@ -82,18 +79,22 @@ class _TaskState extends State<Task> {
                         height: 52,
                         width: 52,
                         child: ElevatedButton(
-                            onPressed: () {
-                              setState(() {
-                                widget.level++;
-                              });
-                            },
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: const [
-                                Icon(Icons.arrow_drop_up),
-                                Text('Up', style: TextStyle(fontSize: 12))
-                              ],
-                            )),
+                          onLongPress: () {
+                            showAlertDialog(context, widget.name);
+                          },
+                          onPressed: () {
+                            setState(() {
+                              widget.level++;
+                            });
+                          },
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: const [
+                              Icon(Icons.arrow_drop_up),
+                              Text('Up', style: TextStyle(fontSize: 12))
+                            ],
+                          ),
+                        ),
                       )
                     ],
                   )),
@@ -125,4 +126,39 @@ class _TaskState extends State<Task> {
       ),
     );
   }
+}
+
+showAlertDialog(BuildContext context, String taskName) {
+  // set up the buttons
+  Widget cancelButton = TextButton(
+    child: Text("Cancel"),
+    onPressed: () {
+      Navigator.of(context).pop();
+    },
+  );
+  Widget continueButton = TextButton(
+    child: Text("Deletar"),
+    onPressed: () {
+      TaskDao().delete(taskName);
+      Navigator.of(context).pop();
+    },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("Deletar?"),
+    content: Text("Você tem certeza que deseja deletar esta tarefa?"),
+    actions: [
+      cancelButton,
+      continueButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }

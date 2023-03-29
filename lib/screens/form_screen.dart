@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nosso_primeiro_projeto/data/task_inherited.dart';
+import 'package:nosso_primeiro_projeto/components/task.dart';
+import 'package:nosso_primeiro_projeto/data/task_dao.dart';
 
 class FormScreen extends StatefulWidget {
   const FormScreen({Key? key, required this.taskContext}) : super(key: key);
@@ -26,7 +27,7 @@ class _FormScreenState extends State<FormScreen> {
 
   bool difficultyValidator(String? value) {
     if (value != null && value.isEmpty) {
-      if (int.parse(value) > 5 || int.parse(value) > 1) {
+      if (int.parse(value) > 5 || int.parse(value) < 1) {
         return true;
       }
     }
@@ -60,12 +61,12 @@ class _FormScreenState extends State<FormScreen> {
                     child: TextFormField(
                       validator: (String? value) {
                         if (valueValidator(value)) {
-                          return 'Insira o nome da tarefa';
+                          return 'Insira o nome da Tarefa';
                         }
                         return null;
                       },
                       controller: nameController,
-                      keyboardType: TextInputType.text,
+                      textAlign: TextAlign.center,
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: 'Nome',
@@ -79,12 +80,13 @@ class _FormScreenState extends State<FormScreen> {
                     child: TextFormField(
                       validator: (value) {
                         if (difficultyValidator(value)) {
-                          return 'Insira uma dificuldade entre 1 e 5 ';
+                          return 'Insira um Dificuldade entre 1 e 5';
                         }
                         return null;
                       },
                       keyboardType: TextInputType.number,
                       controller: difficultyController,
+                      textAlign: TextAlign.center,
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: 'Dificuldade',
@@ -101,12 +103,13 @@ class _FormScreenState extends State<FormScreen> {
                       },
                       validator: (value) {
                         if (valueValidator(value)) {
-                          return 'Insira um URL de Imagem';
+                          return 'Insira um URL de Imagem!';
                         }
                         return null;
                       },
                       keyboardType: TextInputType.url,
                       controller: imageController,
+                      textAlign: TextAlign.center,
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: 'Imagem',
@@ -124,32 +127,34 @@ class _FormScreenState extends State<FormScreen> {
                       border: Border.all(width: 2, color: Colors.blue),
                     ),
                     child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Image.network(
-                          imageController.text,
-                          errorBuilder: (BuildContext context, Object exception,
-                              StackTrace? stackTrace) {
-                            return Image.asset('assets/images/no-photo.png');
-                          },
-                          fit: BoxFit.cover,
-                        )),
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.network(
+                        imageController.text,
+                        errorBuilder: (BuildContext context, Object exception,
+                            StackTrace? stackTrace) {
+                          return Image.asset('assets/images/nophoto.png');
+                        },
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                   ),
                   ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        TaskInherited.of(widget.taskContext).newTask(
+                        TaskDao().save(Task(
                             nameController.text,
                             imageController.text,
-                            int.parse(difficultyController.text));
-
+                            int.parse(difficultyController.text)));
                         ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content: Text('Criando uma nova tarefa')));
+                          const SnackBar(
+                            content: Text('Criando uma nova Tarefa'),
+                          ),
+                        );
                         Navigator.pop(context);
                       }
                     },
-                    child: const Text('Adicionar'),
-                  )
+                    child: const Text('Adicionar!'),
+                  ),
                 ],
               ),
             ),
